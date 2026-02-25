@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Divyasri · AI & ML · neon</title>
+    <!-- Poppins font (clean, modern) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #0b0f1a; /* deep dark blue base */
+        color: #e0e7ff;
+        line-height: 1.6;
+        position: relative;
+      }
+
+      /* cosmic dark gradient overlay (neon vibe) */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 30% 40%,
+            rgba(20, 40, 120, 0.25) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(100, 0, 220, 0.2) 0%,
+            transparent 55%
+          ),
+          linear-gradient(125deg, #030617 0%, #0f172a 100%);
+        pointer-events: none;
+        z-index: -2;
+      }
+
+      /* subtle noise */
+      body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4wMyIgLz48L3N2Zz4=");
+        pointer-events: none;
+        opacity: 0.3;
+        z-index: -1;
+      }
+
+      /* ===== navigation ===== */
+      .navbar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(2, 6, 23, 0.75);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: 0 8px 25px rgba(0, 150, 255, 0.2),
+          0 0 15px rgba(0, 255, 255, 0.3);
+        padding: 1rem 2.5rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-bottom: 1px solid #00e0ff80;
+      }
+
+      .logo {
+        font-weight: 700;
+        font-size: 1.9rem;
+        background: linear-gradient(135deg, #a5f0ff, #c084fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.5px;
+        text-shadow: 0 0 8px cyan;
+      }
+
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2.2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        font-weight: 500;
+        color: #e2e8ff;
+        font-size: 1.1rem;
+        padding: 0.4rem 0.2rem;
+        position: relative;
+        transition: 0.2s;
+        text-shadow: 0 0 5px #0af;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        height: 2.5px;
+        background: linear-gradient(90deg, #0ef, #b388ff);
+        box-shadow: 0 0 12px #0ef;
+        transition: width 0.25s ease;
+        border-radius: 2px;
+      }
+
+      .nav-links a:hover {
+        color: #fff;
+        text-shadow: 0 0 12px cyan;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* ===== sections general ===== */
+      .section {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 5rem 2.5rem;
+      }
+
+      .section-title {
+        font-size: 2.6rem;
+        font-weight: 700;
+        margin-bottom: 3rem;
+        background: linear-gradient(145deg, #e0f2fe, #c7d2fe);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        border-left: 8px solid #0ef;
+        padding-left: 1.8rem;
+        letter-spacing: -0.02em;
+        text-shadow: 0 0 8px #0ef;
+      }
+
+      /* cards with neon glow & dark glass */
+      .card {
+        background: rgba(8, 15, 30, 0.65);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid #0ef3;
+        border-radius: 2.5rem;
+        box-shadow: 0 0 30px #00ccff25, 0 25px 45px -15px #000c1a;
+        padding: 2.8rem;
+        transition: transform 0.25s, box-shadow 0.3s;
+      }
+
+      .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 0 45px #00ffff60, 0 35px 55px -18px #001d3d;
+        border-color: #b184ff;
+      }
+
+      /* ---------- HOME with photo frame (right corner) ---------- */
+      .home-row {
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+      }
+
+      .home-text {
+        flex: 2;
+      }
+
+      .home-photo {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* glowing neon photo frame */
+      .photo-frame {
+        width: 260px;
+        height: 260px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #102a4e, #1e103b);
+        border: 4px solid #0ef;
+        box-shadow: 0 0 30px cyan, 0 0 60px #8a2be2, 0 0 90px #00b7ff40;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden; /* ensures image stays within circle */
+        animation: neonPulse 3s infinite alternate;
+      }
+
+      @keyframes neonPulse {
+        0% {
+          box-shadow: 0 0 20px cyan, 0 0 40px #8a2be2, 0 0 60px #0044ff;
+        }
+        100% {
+          box-shadow: 0 0 40px cyan, 0 0 80px #b77eff, 0 0 120px #0ef;
+        }
+      }
+
+      .photo-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .home-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.8rem;
+      }
+
+      .home-content p {
+        font-size: 1.3rem;
+        font-weight: 300;
+        max-width: 900px;
+        color: #cfdeff;
+      }
+
+      .highlight {
+        font-weight: 600;
+        color: #9acdff;
+        text-shadow: 0 0 8px cyan;
+      }
+
+      /* skills chips */
+      .skills-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+        margin-top: 1.5rem;
+      }
+
+      .skill-chip {
+        background: rgba(0, 20, 40, 0.8);
+        border-radius: 50px;
+        padding: 0.8rem 2rem;
+        font-weight: 500;
+        box-shadow: 0 0 15px #0ef5, 0 8px 16px #000b1a;
+        border: 1px solid #0ef;
+        color: #e6f3ff;
+        font-size: 1.1rem;
+        backdrop-filter: blur(4px);
+        transition: all 0.2s;
+      }
+
+      .skill-chip:hover {
+        background: #0a2a4a;
+        color: white;
+        border-color: #f0f;
+        box-shadow: 0 0 30px #f0f, 0 12px 24px #000;
+      }
+
+      /* projects grid */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+        gap: 2.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .project-card {
+        background: rgba(8, 15, 30, 0.7);
+        backdrop-filter: blur(4px);
+        border-radius: 2.5rem;
+        padding: 2.2rem;
+        transition: 0.2s;
+        border: 1px solid cyan;
+        box-shadow: 0 0 20px #00b7ff40;
+      }
+
+      .project-card h3 {
+        font-size: 1.7rem;
+        font-weight: 600;
+        margin-bottom: 1.2rem;
+        color: #c7e5ff;
+        text-shadow: 0 0 5px #0ef;
+      }
+
+      .project-card p {
+        color: #b9d3ff;
+        margin-bottom: 0.8rem;
+        font-size: 1.05rem;
+      }
+
+      .project-tag {
+        background: #102844;
+        color: #0ef;
+        border-radius: 30px;
+        padding: 0.4rem 1.4rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: inline-block;
+        margin-top: 1.2rem;
+        border: 1px solid cyan;
+        box-shadow: 0 0 12px cyan;
+      }
+
+      /* education */
+      .edu-item {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: baseline;
+        border-bottom: 1px dashed #3c6e9c;
+        padding: 1.5rem 0;
+      }
+
+      .edu-item:last-child {
+        border-bottom: none;
+      }
+
+      .edu-left h4 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #d0edff;
+      }
+
+      .edu-left .meta {
+        font-weight: 400;
+        color: #aac3ff;
+        font-size: 1.1rem;
+      }
+
+      .edu-right {
+        font-weight: 600;
+        background: #112f55;
+        padding: 0.5rem 1.8rem;
+        border-radius: 40px;
+        color: #aaf0ff;
+        font-size: 1.1rem;
+        border: 1px solid #0ef;
+        box-shadow: 0 0 12px cyan;
+      }
+
+      .cert-badge {
+        display: inline-block;
+        background: linear-gradient(145deg, #0a1a33, #140b2b);
+        border-radius: 80px;
+        padding: 1rem 3rem;
+        font-size: 1.5rem;
+        font-weight: 500;
+        border: 2px solid #0ef;
+        box-shadow: 0 0 40px cyan, 0 4px 20px #000;
+        color: #cdf2ff;
+      }
+
+      .achievement-card {
+        background: rgba(6, 16, 33, 0.8);
+        backdrop-filter: blur(4px);
+        border-radius: 2.5rem;
+        padding: 2.5rem;
+        border: 1px solid #ff66ff;
+        box-shadow: 0 0 35px #f0f6;
+      }
+
+      .achievement-card i {
+        color: #ffcc66;
+        font-size: 2.8rem;
+        margin-bottom: 1.2rem;
+        filter: drop-shadow(0 0 12px gold);
+      }
+
+      .achievement-card p {
+        font-size: 1.3rem;
+        color: #f0e9ff;
+      }
+
+      /* contact row */
+      .contact-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2.5rem;
+        align-items: center;
+        margin-top: 2rem;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: rgba(0, 15, 30, 0.7);
+        backdrop-filter: blur(6px);
+        padding: 1rem 2.5rem 1rem 2rem;
+        border-radius: 60px;
+        border: 1px solid #0ef;
+        box-shadow: 0 0 25px cyan;
+        transition: all 0.2s;
+      }
+
+      .contact-item:hover {
+        border-color: #f6f;
+        box-shadow: 0 0 40px #f6f, 0 0 80px #0ef;
+        background: #082032;
+      }
+
+      .contact-item i {
+        font-size: 1.8rem;
+        color: #7df0ff;
+        filter: drop-shadow(0 0 8px cyan);
+      }
+
+      .contact-item a {
+        text-decoration: none;
+        font-weight: 500;
+        color: #d7ecff;
+        font-size: 1.1rem;
+      }
+
+      .contact-item a:hover {
+        color: white;
+        text-shadow: 0 0 12px cyan;
+      }
+
+      /* responsive */
+      @media (max-width: 900px) {
+        .home-row {
+          flex-direction: column;
+          text-align: center;
+        }
+        .home-photo {
+          order: -1;
+          margin-bottom: 1.5rem;
+        }
+        .photo-frame {
+          width: 220px;
+          height: 220px;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .navbar {
+          flex-direction: column;
+          gap: 0.8rem;
+          padding: 1rem;
+        }
+        .nav-links {
+          justify-content: center;
+          gap: 1.2rem;
+        }
+        .section-title {
+          font-size: 2.2rem;
+        }
+        .edu-item {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+        .contact-links {
+          gap: 1.5rem;
+        }
+        .contact-item {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .section {
+          padding: 3rem 1.5rem;
+        }
+        .photo-frame {
+          width: 180px;
+          height: 180px;
+        }
+      }
+
+      footer {
+        text-align: center;
+        padding: 2rem;
+        color: #8eaeff;
+        font-size: 0.95rem;
+        border-top: 1px solid #00b8ff60;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- navigation panel -->
+    <nav class="navbar">
+      <div class="logo">DIVYASRI</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#certification">Certification</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <!-- step 1: Home + about me + PHOTO FRAME with actual image -->
+      <section id="home" class="section">
+        <div class="card home-content" style="padding: 2.8rem">
+          <div class="home-row">
+            <div class="home-text">
+              <h1
+                class="section-title"
+                style="border-left: none; padding-left: 0"
+              >
+                About me
+              </h1>
+              <p>
+                A Computer Science and Engineering student with a strong
+                interest in Artificial Intelligence and Machine Learning. I am
+                passionate about using technology to solve real-world problems.
+              </p>
+              <p>
+                Currently, I am expanding my knowledge in Deep Learning and
+                continuously improving my skills to stay aligned with industry
+                needs. I am eager to apply my learning in real-world
+                environments, contribute to innovative projects, and grow as a
+                technology professional.
+              </p>
+            </div>
+            <!-- right side: photo frame with an image (professional placeholder) -->
+            <div class="home-photo">
+              <div class="photo-frame">
+                <!--
+              Replace this src with your own photo.
+              The current src is a neutral placeholder avatar with your initials.
+            -->
+                <img src="1photo.jpeg" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- step 2: skills -->
+      <section id="skills" class="section">
+        <h2 class="section-title">skills</h2>
+        <div class="card">
+          <p
+            style="
+              font-weight: 600;
+              margin-bottom: 1.5rem;
+              font-size: 1.3rem;
+              color: #b3d9ff;
+            "
+          >
+            Programming Languages :
+          </p>
+          <div class="skills-container">
+            <span class="skill-chip">C</span>
+            <span class="skill-chip">C++</span>
+            <span class="skill-chip">Java</span>
+            <span class="skill-chip">HTML</span>
+            <span class="skill-chip">CSS</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- step 3: projects -->
+      <section id="projects" class="section">
+        <h2 class="section-title">projects</h2>
+        <div class="projects-grid">
+          <div class="project-card card">
+            <h3>📘 University Management System (UMS)</h3>
+            <p>
+              <span style="font-weight: 600">Tech:</span> Java Swing, MySQL,
+              JDBC
+            </p>
+            <p>
+              Developed a Java-based desktop application with MySQL database
+              connectivity using JDBC. Streamlined student records, course
+              management and administrative tasks.
+            </p>
+            <span class="project-tag">desktop app</span>
+          </div>
+          <div class="project-card card">
+            <h3>🌀 Q Forensics</h3>
+            <p>
+              A hybrid quantum‑classical framework for deepfake detection via
+              spatial‑frequency fusion.
+            </p>
+            <p style="margin-top: 0.8rem; font-size: 1rem">
+              Integrates quantum circuits with classical CNNs to detect
+              manipulated media — presented at national symposium.
+            </p>
+            <span class="project-tag">AI / quantum</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- step 4: education -->
+      <section id="education" class="section">
+        <h2 class="section-title">education</h2>
+        <div class="card">
+          <div class="edu-item">
+            <div class="edu-left">
+              <h4>Government College of Engineering, Salem</h4>
+              <div class="meta">
+                B.E Computer Science and Engineering (2023–2027)
+              </div>
+            </div>
+            <div class="edu-right">CGPA 8.98</div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-left">
+              <h4>Nivedha Matriculation Higher Secondary School</h4>
+              <div class="meta">Grade 12 (2022–2023)</div>
+            </div>
+            <div class="edu-right">97.33%</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- step 5: certification -->
+      <section id="certification" class="section">
+        <h2 class="section-title">certification</h2>
+        <div class="card" style="text-align: center">
+          <span class="cert-badge"
+            ><i
+              class="fa-regular fa-circle-check"
+              style="color: #0ef; margin-right: 10px"
+            ></i
+            >Oracle Certified Foundations Associate</span
+          >
+        </div>
+      </section>
+
+      <!-- step 6: achievements (extra) -->
+      <section id="achievements" class="section" style="padding-top: 0">
+        <h2 class="section-title">🏆 achievements</h2>
+        <div class="achievement-card card">
+          <i class="fa-solid fa-medal"></i>
+          <p>
+            <strong>first prize</strong> in paper presentation at national level
+            technical symposium on topic
+            <strong
+              >“q forensics: a hybrid quantum‑classical framework for deepfake
+              detection via spatial‑frequency fusion”</strong
+            >.
+          </p>
+          <p style="margin-top: 1.5rem; color: #0ef">
+            ✦ national level symposium ✦
+          </p>
+        </div>
+      </section>
+
+      <!-- step 7: contact -->
+      <section id="contact" class="section">
+        <h2 class="section-title">contact</h2>
+        <div class="card">
+          <div class="contact-links">
+            <div class="contact-item">
+              <i class="fa-regular fa-envelope"></i>
+              <a href="mailto:diyapyr@gmail.com">diyapyr@gmail.com</a>
+            </div>
+            <div class="contact-item">
+              <i class="fa-brands fa-linkedin"></i>
+              <a
+                href="https://www.linkedin.com/in/divyasri-s-925765351"
+                target="_blank"
+                rel="noopener"
+                >linkedin.com/in/divyasri-s</a
+              >
+            </div>
+            <div class="contact-item">
+              <i class="fa-brands fa-github"></i>
+              <a
+                href="https://github.com/Divya-22-sri"
+                target="_blank"
+                rel="noopener"
+                >github.com/Divya-22-sri</a
+              >
+            </div>
+          </div>
+          <p style="margin-top: 2.5rem; color: #b5d0ff; font-size: 1rem">
+            <i class="fa-regular fa-paper-plane" style="color: #0ef"></i> open
+            to research & collaboration
+          </p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
